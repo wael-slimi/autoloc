@@ -1,4 +1,4 @@
-package com.example.autoloc;
+package com.example.autoloc.domain;
 
 public enum RoleEmploye {
     AGENT, MANAGER
