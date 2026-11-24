@@ -1,6 +1,7 @@
 package com.example.autoloc.web.controller;
 
 import com.example.autoloc.domain.Agence;
+import com.example.autoloc.service.IAgenceService;
 import com.example.autoloc.repository.AgenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 public class AgenceController {
 
     private final AgenceRepository repo;
+    private final IAgenceService agenceService;
 
     @GetMapping
     public List<Agence> getAll() { return repo.findAll(); }
@@ -42,5 +44,11 @@ public class AgenceController {
         if (!repo.existsById(id)) return ResponseEntity.notFound().build();
         repo.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/avec-vehicules")
+    public ResponseEntity<Agence> ajouterAgenceEtAffecterVehicules(@RequestBody Agence body) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(agenceService.ajouterAgenceEtAffecterVehicules(body));
     }
 }

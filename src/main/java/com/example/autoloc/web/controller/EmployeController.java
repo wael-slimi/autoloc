@@ -1,6 +1,7 @@
 package com.example.autoloc.web.controller;
 
 import com.example.autoloc.domain.Employe;
+import com.example.autoloc.service.IEmployeService;
 import com.example.autoloc.repository.EmployeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 public class EmployeController {
 
     private final EmployeRepository repo;
+    private final IEmployeService employeService;
 
     @GetMapping
     public List<Employe> getAll() { return repo.findAll(); }
@@ -42,5 +44,15 @@ public class EmployeController {
         if (!repo.existsById(id)) return ResponseEntity.notFound().build();
         repo.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{idEmploye}/desaffecter")
+    public Employe desaffecterEmploye(@PathVariable Long idEmploye) {
+        return employeService.desaffecterEmploye(idEmploye);
+    }
+
+    @PutMapping("/{idEmploye}/affecter/{idAgence}")
+    public Employe affecterEmploye(@PathVariable Long idEmploye, @PathVariable Long idAgence) {
+        return employeService.affecterEmploye(idEmploye, idAgence);
     }
 }
